@@ -15,9 +15,10 @@ public class FontCreator {
         System.out.println("Font creator for the esp8266-oled-ssd1306 library");
         System.out.println("Created by Arcao (http://arcao.com), based on squix78 (http://blog.squix.ch) work.");
         System.out.println("");
-        System.out.println("Usage: java -jar fontcreator.jar [options] [FONT]");
+        System.out.print("Usage: fontcreator [options] [FONT]");
         System.out.println("");
         parser.printHelp();
+        System.out.println(System.getProperties().toString());
     }
 
     public static void main(String args[]) {
@@ -25,7 +26,6 @@ public class FontCreator {
             showHelp();
             return;
         }
-
 
         Arguments arguments;
         try {

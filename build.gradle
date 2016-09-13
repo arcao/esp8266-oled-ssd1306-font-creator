@@ -1,6 +1,7 @@
 apply plugin: 'application'
 
-archivesBaseName = 'fontcreator'
+applicationName = 'fontcreator'
+archivesBaseName = applicationName
 version = '1.0'
 mainClassName = 'com.arcao.fontcreator.FontCreator'
 sourceCompatibility = 1.8
@@ -21,24 +22,18 @@ dependencies {
 }
 
 jar {
-    dependsOn configurations.runtime
-    from {
-        (configurations.runtime - configurations.provided).collect {
-            it.isDirectory() ? it : zipTree(it)
-        }
-    } {
-        exclude "META-INF/*.SF"
-        exclude "META-INF/*.DSA"
-        exclude "META-INF/*.RSA"
-    }
-
-    version = null
-
     manifest {
-        attributes "Implementation-Title": archivesBaseName
+        attributes "Implementation-Title": applicationName
         attributes "Implementation-Version": project.version
         attributes 'Main-Class': mainClassName
     }
 }
 
+distZip {
+    version = null
+}
+
+distTar {
+    version = null
+}
 
