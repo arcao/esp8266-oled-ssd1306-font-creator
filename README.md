@@ -1,12 +1,20 @@
 # esp8266-oled-ssd1306-font-creator
 Font creator for the [esp8266-oled-ssd1306](https://github.com/squix78/esp8266-oled-ssd1306) library. It's generate font.h file in Font V3 format used in this library.
 
+## Install from latest sources
+For installation you need to have installed `Sun JDK 1.8` or `OpenJDK 1.8`.
+
+1. Download the source package [from this page](https://github.com/arcao/esp8266-oled-ssd1306-font-creator/archive/master.zip)
+2. Unzip the archive.
+3. Run `gradlew installDist` in `esp8266-oled-ssd1306-font-creator-master` directory. It should prepare distribution `zip` and `tar` files in `build/distributions` directory and also unpack the distribution archive in `build/install`. 
+4. Go to `build/install/fontcreator/bin` subdirectory. There are located `bat`/`bash` scripts to execute the app. For usage see bellow...
+
 ## Usage
 ```
 Font creator for the esp8266-oled-ssd1306 library
 Created by Arcao (http://arcao.com), based on squix78 (http://blog.squix.ch) work.
 
-Usage: java -jar fontcreator.jar [options] [FONT]
+Usage: fontcreator [options] [FONT]
 
 Non-option arguments:
 [FONT] -- system font name or path to font file to be processed
