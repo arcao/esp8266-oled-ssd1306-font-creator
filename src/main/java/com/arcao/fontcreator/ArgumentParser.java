@@ -10,9 +10,6 @@ import joptsimple.OptionSpec;
 
 import static java.util.Arrays.asList;
 
-/**
- * Created by arcao on 13.09.2016.
- */
 public class ArgumentParser {
     private final OptionParser parser = new OptionParser();
 

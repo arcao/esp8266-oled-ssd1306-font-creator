@@ -1,3 +1,9 @@
+/*
+Based on squix78 implementation (MIT License) from:
+https://github.com/squix78/esp8266-oled-ssd1306-font-converter/blob/81bf43601496b2e607563d374a03b8b385e31940/src/main/java/ch/squix/esp8266/fontconverter/rest/FontConverterV3.java
+
+Some parts was changed or improved for application usage by Arcao.
+*/
 package com.arcao.fontcreator;
 
 import java.awt.Color;
@@ -11,10 +17,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Based on squix78 implementation from:
- * https://github.com/squix78/esp8266-oled-ssd1306-font-converter/blob/81bf43601496b2e607563d374a03b8b385e31940/src/main/java/ch/squix/esp8266/fontconverter/rest/FontConverterV3.java
- */
 public class FontConverterV3 {
 
     private static final int END_CHAR = 256;
