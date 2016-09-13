@@ -1,0 +1,44 @@
+apply plugin: 'application'
+
+archivesBaseName = 'fontcreator'
+version = '1.0'
+mainClassName = 'com.arcao.fontcreator.FontCreator'
+sourceCompatibility = 1.8
+
+//Get dependencies from jcenter
+repositories {
+    jcenter()
+}
+
+configurations {
+    provided
+    compile.extendsFrom provided
+}
+
+//Project dependencies
+dependencies {
+    compile 'net.sf.jopt-simple:jopt-simple:5.0.2'
+}
+
+jar {
+    dependsOn configurations.runtime
+    from {
+        (configurations.runtime - configurations.provided).collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    } {
+        exclude "META-INF/*.SF"
+        exclude "META-INF/*.DSA"
+        exclude "META-INF/*.RSA"
+    }
+
+    version = null
+
+    manifest {
+        attributes "Implementation-Title": archivesBaseName
+        attributes "Implementation-Version": project.version
+        attributes 'Main-Class': mainClassName
+    }
+}
+
+
