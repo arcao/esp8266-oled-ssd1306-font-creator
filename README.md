@@ -2,7 +2,7 @@
 Font creator for the [esp8266-oled-ssd1306](https://github.com/squix78/esp8266-oled-ssd1306) library. It's generate font.h file in Font V3 format used in this library.
 
 ## Download
-You can download pre-build console application from [latest release page]:(https://github.com/arcao/esp8266-oled-ssd1306-font-creator/releases/latest). For running this application you need `JRE 1.8.x` (`Sun JRE` or `OpenJDK`) and newer. In `fontcreator/bin` directory are located `bat`/`bash` scripts to execute the app. For usages see bellow...
+You can download pre-build console application from [latest release page](https://github.com/arcao/esp8266-oled-ssd1306-font-creator/releases/latest). For running this application you need `JRE 1.8.x` (`Sun JRE` or `OpenJDK`) and newer. In `fontcreator/bin` directory are located `bat`/`bash` scripts to execute the app. For usages see bellow...
 
 ## Install from latest sources
 For installation you need to have installed `Sun JDK 1.8` or `OpenJDK 1.8`.
