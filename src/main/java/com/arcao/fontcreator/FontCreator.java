@@ -18,7 +18,6 @@ public class FontCreator {
         System.out.print("Usage: fontcreator [options] [FONT]");
         System.out.println("");
         parser.printHelp();
-        System.out.println(System.getProperties().toString());
     }
 
     public static void main(String args[]) {
