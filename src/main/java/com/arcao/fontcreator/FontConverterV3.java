@@ -26,6 +26,8 @@ public class FontConverterV3 {
     private FontMetrics fontMetrics;
     private BufferedImage image;
     private Charset charset;
+	
+	private int yoffset;
 
 
     public FontConverterV3(Font font) {
@@ -42,7 +44,8 @@ public class FontConverterV3 {
         this.charset = charset;
     }
 
-    public void printFontData(StringBuilder builder) {
+    public void printFontData(StringBuilder builder, int yoffset) {
+		this.yoffset=yoffset;
         List<LetterData> letterList = produceLetterDataList();
 
         String fontName = g.getFont().getFontName().replaceAll("[\\s\\-\\.]", "_") + "_"
@@ -112,7 +115,7 @@ public class FontConverterV3 {
 
         int character[] = new int[arraySize];
 
-        boolean isVisableChar = false;
+        boolean isVisibleChar = false;
 
         if (width > 0) {
             for (int i = 0; i < arraySize; i++) {
@@ -122,7 +125,7 @@ public class FontConverterV3 {
                 for (int b = 0; b < 8; b++) {
                     if (yImg + b <= height) {
                         if (letterImage.getRGB(xImg, yImg + b) == Color.BLACK.getRGB()) {
-                            isVisableChar = true;
+                            isVisibleChar = true;
                             currentByte = currentByte | (1 << b);
                         } else {
                             currentByte = currentByte & ~(1 << b);
@@ -143,14 +146,14 @@ public class FontConverterV3 {
 
         character = Arrays.copyOf(character, lastByteNotNull + 1);
 
-        return new LetterData(code, character, width, isVisableChar);
+        return new LetterData(code, character, width, isVisibleChar);
     }
 
     private BufferedImage drawLetter(char code) {
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, 450, 250);
         g.setColor(Color.BLACK);
-        g.drawString(String.valueOf(code), 0, fontMetrics.getAscent() + fontMetrics.getLeading());
+        g.drawString(String.valueOf(code), 0, fontMetrics.getAscent() + fontMetrics.getLeading() - yoffset);
         return image;
     }
 
