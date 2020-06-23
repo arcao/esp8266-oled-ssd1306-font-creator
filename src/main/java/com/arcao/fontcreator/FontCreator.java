@@ -63,7 +63,7 @@ public class FontCreator {
             FontConverterV3 fontConverter = new FontConverterV3(font, charset);
 
             StringBuilder builder = new StringBuilder();
-            fontConverter.printFontData(builder);
+            fontConverter.printFontData(builder, arguments.yoffset());
 
             PrintStream out = System.out;
             if (arguments.outputFile() != null) {

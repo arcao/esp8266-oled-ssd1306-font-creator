@@ -20,10 +20,12 @@ public class ArgumentParser {
     private final OptionSpec<String> charset;
     private final OptionSpec<File> outputFile;
     private final OptionSpec<String> font;
+    private final OptionSpec<Integer> yoffset;
 
     public ArgumentParser() {
         help = parser.acceptsAll(asList("h", "help"), "display this help and exit").forHelp();
         size = parser.acceptsAll(asList("s", "size"), "font size").withRequiredArg().ofType(Integer.class);
+        yoffset = parser.acceptsAll(asList("y", "yoffset"), "shifts characters upwards (pixels)").withOptionalArg().ofType(Integer.class).defaultsTo(0);
         bold = parser.acceptsAll(asList("b", "bold"), "use bold font variant");
         italic = parser.acceptsAll(asList("i", "italic"), "use italic font style");
         charset = parser.acceptsAll(asList("c", "charset"), "font table index charset").withOptionalArg().defaultsTo("iso-8859-1").ofType(String.class);
@@ -45,6 +47,11 @@ public class ArgumentParser {
                 return options.valueOf(size);
             }
 
+            @Override
+            public int yoffset() {
+                return options.valueOf(yoffset);
+            }
+			
             @Override
             public boolean bold() {
                 return options.has(bold);

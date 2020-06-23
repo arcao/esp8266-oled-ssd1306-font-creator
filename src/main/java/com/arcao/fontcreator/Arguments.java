@@ -17,4 +17,7 @@ interface Arguments {
     File outputFile();
 
     String font();
+	
+    int yoffset();
+	
 }
