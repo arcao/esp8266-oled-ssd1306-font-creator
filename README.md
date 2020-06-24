@@ -22,14 +22,15 @@ Usage: fontcreator [options] [FONT]
 Non-option arguments:
 [FONT] -- system font name or path to font file to be processed
 
-Option                Description
-------                -----------
--b, --bold            use bold font variant
--c, --charset         font table index charset (default: iso-8859-1)
--h, --help            display this help and exit
--i, --italic          use italic font style
--o, --output [File]   write .h font table to file instead to StdOut
--s, --size <Integer>  font size
+Option                   Description
+------                   -----------
+-b, --bold               use bold font variant
+-c, --charset            font table index charset (default: iso-8859-1)
+-h, --help               display this help and exit
+-i, --italic             use italic font style
+-o, --output [File]      write .h font table to file instead to StdOut
+-s, --size <Integer>     font size
+-y, --yoffset <Integer>  shifts characters upwards (pixels)
 ```
 
 ## License
