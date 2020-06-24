@@ -30,7 +30,7 @@ Option                   Description
 -i, --italic             use italic font style
 -o, --output [File]      write .h font table to file instead to StdOut
 -s, --size <Integer>     font size
--y, --yoffset <Integer>  shifts characters upwards (pixels)
+-y, --yoffset [Integer]  shifts characters upwards (pixels) (default: 0)
 ```
 
 ## License
