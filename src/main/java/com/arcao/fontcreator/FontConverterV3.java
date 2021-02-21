@@ -19,8 +19,8 @@ import java.util.List;
 
 public class FontConverterV3 {
 
-    private static final int END_CHAR = 256;
-    private static final int START_CHAR = 32;
+    private int endChar = 256;
+    private int startChar = 32;
 
     private Graphics2D g;
     private FontMetrics fontMetrics;
@@ -44,20 +44,26 @@ public class FontConverterV3 {
         this.charset = charset;
     }
 
-    public void printFontData(StringBuilder builder, int yoffset) {
+    public void printFontData(StringBuilder builder, int yoffset, String characters) {
+        calculateStartEnd(characters);
 		this.yoffset=yoffset;
-        List<LetterData> letterList = produceLetterDataList();
+        List<LetterData> letterList = produceLetterDataList(characters);
 
         String fontName = g.getFont().getFontName().replaceAll("[\\s\\-\\.]", "_") + "_"
                 + getFontStyle() + "_" + g.getFont().getSize();
         builder.append("// Font table version: 3\n");
         builder.append("// Created by FontCreator (https://github.com/arcao/esp8266-oled-ssd1306-font-creator.\n");
         builder.append("// In case of problems make sure that you are using the font file with the correct version!\n");
-        builder.append(String.format("const char %s[] PROGMEM = {\n", fontName));
+        if (characters != null && !characters.isEmpty()) {
+            builder.append("// contains only \"");
+            builder.append(characters);
+            builder.append("\"\n");
+        }
+        builder.append(String.format("const uint8_t %s[] PROGMEM = {\n", fontName));
         writeHexValue(builder, "Width", getMaxCharWidth());
         writeHexValue(builder, "Height", getMaxCharHeight());
-        writeHexValue(builder, "First Char", START_CHAR);
-        writeHexValue(builder, "Numbers of Chars", END_CHAR - START_CHAR);
+        writeHexValue(builder, "First Char", startChar);
+        writeHexValue(builder, "Numbers of Chars", endChar - startChar);
         builder.append("\n");
         builder.append("\t// Jump Table:\n");
 
@@ -80,7 +86,7 @@ public class FontConverterV3 {
         letterList.stream().filter(LetterData::isVisible).forEach(letter -> {
             builder.append("\t");
             builder.append(letter.toString());
-            if ((int) letter.getCode() != END_CHAR - 1) {
+            if ((int) letter.getCode() != endChar - 1) {
                 builder.append(",");
             }
             builder.append(String.format("\t// %d\n", (int) letter.getCode()));
@@ -89,17 +95,20 @@ public class FontConverterV3 {
         builder.append("};\n");
     }
 
-    private List<LetterData> produceLetterDataList() {
-        List<LetterData> letterDataList = new ArrayList<>(END_CHAR - START_CHAR);
-        for (int i = START_CHAR; i < END_CHAR; i++) {
+    private List<LetterData> produceLetterDataList(String characters) {
+        List<LetterData> letterDataList = new ArrayList<>(endChar - startChar);
+        for (int i = startChar; i < endChar; i++) {
             char ch;
             if (charset == null) {
                 ch = (char) i;
             } else {
                 ch = new String(new byte[]{(byte) (i & 0xFF)}, charset).charAt(0);
             }
-
-            letterDataList.add(createLetterData(ch));
+            LetterData letter = createLetterData(ch);
+            letterDataList.add(letter);
+            if (characters != null && !characters.isEmpty() && characters.indexOf(ch) < 0) {
+                letter.visible = false;
+            }
         }
         return letterDataList;
     }
@@ -187,7 +196,7 @@ public class FontConverterV3 {
 
     private int getMaxCharWidth() {
         int maxWidth = 0;
-        for (int i = START_CHAR; i < END_CHAR; i++) {
+        for (int i = startChar; i < endChar; i++) {
             maxWidth = Math.max(maxWidth, fontMetrics.charWidth((char) i));
         }
         return maxWidth;
@@ -195,6 +204,32 @@ public class FontConverterV3 {
 
     private int getMaxCharHeight() {
         return fontMetrics.getMaxAscent() + fontMetrics.getMaxDescent() + fontMetrics.getLeading();
+    }
+
+    private void calculateStartEnd(String characters) {
+        if (characters != null && !characters.isEmpty()) {
+            startChar = 255;
+            endChar = 0;
+            for (int i = 0; i < characters.length(); i++) {
+                int idx = characterTargetIndex(characters.charAt(i));
+                if (idx < startChar) {
+                    startChar = idx;
+                }
+                if (idx >= endChar) {
+                    endChar = idx + 1;
+                }
+            }
+        }
+    }
+
+    private int characterTargetIndex(char c) {
+        int ch;
+        if (charset == null) {
+            ch = c;
+        } else {
+            ch = Character.toString(c).getBytes(charset)[0] & 0xFF;
+        }
+        return ch;
     }
 
     private class LetterData {

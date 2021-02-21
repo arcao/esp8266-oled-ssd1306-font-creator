@@ -21,6 +21,7 @@ public class ArgumentParser {
     private final OptionSpec<File> outputFile;
     private final OptionSpec<String> font;
     private final OptionSpec<Integer> yoffset;
+    private final OptionSpec<String> characters;
 
     public ArgumentParser() {
         help = parser.acceptsAll(asList("h", "help"), "display this help and exit").forHelp();
@@ -31,6 +32,7 @@ public class ArgumentParser {
         charset = parser.acceptsAll(asList("c", "charset"), "font table index charset").withOptionalArg().defaultsTo("iso-8859-1").ofType(String.class);
         outputFile = parser.acceptsAll(asList("o", "output"), "write .h font table to file instead to StdOut").withOptionalArg().ofType(File.class);
         font = parser.nonOptions("system font name or path to font file to be processed").describedAs("FONT").ofType(String.class);
+        characters = parser.acceptsAll(asList("a", "characters"), "characters to include").withRequiredArg().defaultsTo("").ofType(String.class);
     }
 
     public Arguments parse(String args[]) throws OptionException {
@@ -75,6 +77,11 @@ public class ArgumentParser {
             @Override
             public String font() {
                 return options.valueOf(font);
+            }
+
+            @Override
+            public String characters() {
+                return options.valueOf(characters);
             }
         };
     }
