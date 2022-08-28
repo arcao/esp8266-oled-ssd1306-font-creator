@@ -19,5 +19,6 @@ interface Arguments {
     String font();
 	
     int yoffset();
-	
+
+    String characters();
 }
